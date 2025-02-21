@@ -1,0 +1,144 @@
+html {
+    background-color: #6a6767;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+main {
+    background-color: #292b56;
+    width: 405px;
+    margin: auto;
+    padding: 10px;
+    border: solid 1px #3A4655;
+    box-shadow: 0 8px 50px -7px black;
+    border-radius: 5px;
+}
+
+#buttons-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas: 
+    "ac divide multiply subtract"
+    "seven eight nine add"
+    "four five six add"
+    "one two three equal"
+    "c zero dot equal";
+    gap: 10px;
+    width: 400px;
+    aspect-ratio: 1;
+    margin-top: 5px;
+}
+
+.screen {
+    border: 1px solid #16173b;
+    text-align: end;
+    font-size: 3rem;
+    border-radius: 5px;
+    margin: 0;
+    padding: 10px;
+    background-color: rgb(19, 19, 19);
+    color: aliceblue;
+}
+
+button {
+    background: #425062;
+    color: #fff;
+    padding: 20px;
+    border-radius: 50px;
+    font-size: 25px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: -4px;
+    border-right: solid 2px #3C4857;
+    border-bottom: solid 2px #3C4857;
+    transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #1e1f49
+}
+
+/*All the buttons*/
+#zero {
+    grid-area: zero;
+}
+
+#one {
+    grid-area: one;
+}
+
+#two {
+    grid-area: two;
+}
+
+#three {
+    grid-area: three;
+}
+
+#four {
+    grid-area: four;
+}
+
+#five {
+    grid-area: five;
+}
+
+#six {
+    grid-area: six;
+}
+
+#seven {
+    grid-area: seven;
+}
+
+#eight {
+    grid-area: eight;
+}
+
+#nine {
+    grid-area: nine;
+}
+
+#dot {
+    grid-area: dot;
+}
+
+#add {
+    grid-area: add;
+}
+
+#subtract {
+    grid-area: subtract;
+}
+
+#multiply {
+    grid-area: multiply;
+}
+
+#divide {
+    grid-area: divide;
+}
+
+#equal {
+    grid-area: equal;
+    background-color: #e63a4b;
+}
+
+#equal:hover {
+    background-color: #ff485a;
+}
+
+#all-clear {
+    grid-area: ac;
+}
+
+#clear {
+    grid-area: c;
+}
