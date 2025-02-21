@@ -19,6 +19,7 @@ main {
     border: solid 1px #3A4655;
     box-shadow: 0 8px 50px -7px black;
     border-radius: 5px;
+    position: relative;
 }
 
 #buttons-container {
@@ -36,7 +37,7 @@ main {
     margin-top: 5px;
 }
 
-.screen {
+#screen {
     border: 1px solid #16173b;
     text-align: end;
     font-size: 3rem;
@@ -44,6 +45,14 @@ main {
     margin: 0;
     padding: 10px;
     background-color: rgb(19, 19, 19);
+    color: aliceblue;
+}
+
+#operation-indicator {
+    position: absolute;
+    font-size: x-large;
+    top: 10px;
+    left: 35px;
     color: aliceblue;
 }
 
