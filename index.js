@@ -14,11 +14,47 @@ operationalButtons.forEach(button => button.addEventListener("click", (e) => cli
 document.getElementById("dot").addEventListener("click", dot);
 document.getElementById("clear").addEventListener("click", clear);
 document.getElementById("all-clear").addEventListener("click", allClear);
+document.addEventListener("keydown", (e) => {
+    console.log(e)
+    switch (e.key) {
+        case "0":
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+        case "8":
+        case "9":
+            clickedNumber(e.key);
+            break;
+        case "+":
+        case "-":
+        case "*":
+        case "/":
+            clickedOperation(e.key);
+            break;
+        case "Enter": 
+            clickedOperation("=");
+            break;
+        case "Backspace":
+            clear();
+            break;
+        case "Delete":
+            allClear();
+            break;
+        case ".":
+            dot();
+            break;
+    }
+})
 
 //Functions
 function clickedNumber(number) {
     if (restartedNumber) {
         screenElement.textContent = parseFloat(number);
+        restartedNumber = false;
     } else {
         screenElement.textContent = parseFloat(screenElement.textContent + number);
     }
@@ -68,6 +104,6 @@ function clear() {
 
 function allClear() {
     clear();
-    firstNumber = 0
+    firstNumber = undefined;
     operationIndicator.textContent = undefined;
 }
