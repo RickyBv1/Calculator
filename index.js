@@ -1,19 +1,28 @@
 //References
-const numericalButtons = Array.from(document.getElementsByClassName("number"));
-const operationalButtons = Array.from(document.getElementsByClassName("operation"));
-const screenElement = document.getElementById("screen");
-const operationIndicator = document.getElementById("operation-indicator");
+numericalButtons = Array.from(document.getElementsByClassName("number"));
+operationalButtons = Array.from(document.getElementsByClassName("operation"));
+screenElement = document.getElementById("screen");
+operationIndicator = document.getElementById("operation-indicator");
 
 //Other variables
+let screen = 0;
 let firstNumber;
 let restartedNumber = false;
 
 //Events
-numericalButtons.forEach(button => button.addEventListener("click", (e) => clickedNumber(e.target.textContent)));
-operationalButtons.forEach(button => button.addEventListener("click", (e) => clickedOperation(e.target.textContent)));
+numericalButtons.forEach((button) => {
+    button.addEventListener("click", (e) => 
+        clickedNumber(parseFloat(e.target.textContent))
+    )
+});
+operationalButtons.forEach((button) => {
+    button.addEventListener("click", (e) =>
+        clickedOperation(e.target.textContent)
+    )
+});
+document.getElementById("clear").addEventListener("click", clearCurrentNumber);
+document.getElementById("all-clear").addEventListener("click", reset);
 document.getElementById("dot").addEventListener("click", dot);
-document.getElementById("clear").addEventListener("click", clear);
-document.getElementById("all-clear").addEventListener("click", allClear);
 document.addEventListener("keydown", (e) => {
     console.log(e)
     switch (e.key) {
@@ -27,7 +36,7 @@ document.addEventListener("keydown", (e) => {
         case "7":
         case "8":
         case "9":
-            clickedNumber(e.key);
+            clickedNumber(parseFloat(e.key));
             break;
         case "+":
         case "-":
@@ -39,10 +48,10 @@ document.addEventListener("keydown", (e) => {
             clickedOperation("=");
             break;
         case "Backspace":
-            clear();
+            clearCurrentNumber();
             break;
         case "Delete":
-            allClear();
+            reset();
             break;
         case ".":
             dot();
@@ -53,57 +62,68 @@ document.addEventListener("keydown", (e) => {
 //Functions
 function clickedNumber(number) {
     if (restartedNumber) {
-        screenElement.textContent = parseFloat(number);
+        screen = 0;
         restartedNumber = false;
-    } else {
-        screenElement.textContent = parseFloat(screenElement.textContent + number);
+    }
+    screenNumber = parseFloat(screen);
+    if (!isNaN(screenNumber)) {
+        screen = parseFloat(screen.toString() + number);
+        updateScreen();
     }
 }
 
 function clickedOperation(operation) {
     if (!firstNumber) {
-        if (screenElement.textContent === "0") return;
-        firstNumber = parseFloat(screenElement.textContent);
+        if (screen === 0) return;
+        firstNumber = screen;
+        operationIndicator.textContent = operation;
+        updateScreen(0);
     } else {
         let result;
         switch (operationIndicator.textContent) {
             case "+":
-                result = firstNumber + parseFloat(screenElement.textContent);
+                result = firstNumber + screen;
                 break;
             case "-":
-                result = firstNumber - parseFloat(screenElement.textContent);
+                result = firstNumber - screen;
                 break;
             case "*":
-                result = firstNumber * parseFloat(screenElement.textContent);
+                result = firstNumber * screen;
                 break;
             case "/":
-                if (screenElement.textContent === "0") {
+                if (screen === 0) {
                     result = 0;
                     break;
                 }
-                result = firstNumber / parseFloat(screenElement.textContent);
+                result = firstNumber / screen;
                 break;
         }
-        screenElement.textContent = result;
         firstNumber = result;
+        updateScreen(result);
+        operationIndicator.textContent = operation;
+        if (operation === "=") {
+            operationIndicator.textContent = undefined;
+            firstNumber = undefined;
+        }
+        restartedNumber = true;
     }
-    restartedNumber = true;
-    operationIndicator.textContent = operation;
-    console.log(operation, firstNumber);
+}
+
+function updateScreen(message = screen) {
+    screen = message;
+    screenElement.textContent = screen;
+}
+
+function clearCurrentNumber() {
+    updateScreen(0);
+}
+
+function reset() {
+    clearCurrentNumber();
+    (firstNumber = undefined),
+    (operationIndicator.textContent = undefined);
 }
 
 function dot() {
-    if (Number.isInteger(parseFloat(screenElement.textContent))) {
-        screenElement.textContent += ".";
-    }
-}
-
-function clear() {
-    screenElement.textContent = 0;
-}
-
-function allClear() {
-    clear();
-    firstNumber = undefined;
-    operationIndicator.textContent = undefined;
+    if (Number.isInteger(screen)) updateScreen(screen += ".");
 }
